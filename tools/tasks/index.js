@@ -15,7 +15,7 @@ var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 
 
-var customizer = function(customizeConfig, ID, callback){
+var Customizer = function(customizeConfig, ID, callback){
   this.cstmzPath = path.join(__dirname, '../../customizer/', ID.toString(), '/dist');
   this.cstmzTmp = path.join(__dirname, '../../customizer/', ID.toString(), '/.cstmz-tmp');
   this.DEFAULTS = {
@@ -62,7 +62,7 @@ var customizer = function(customizeConfig, ID, callback){
         "theme": ["header.default.less"]
       }
     ]
-  } 
+  }
 
   this.less = [
     '@import "variables.less";',
@@ -82,14 +82,14 @@ var customizer = function(customizeConfig, ID, callback){
 
 // ATTENTION: Adding ID to task name to avoid the problems happened when running same task multiple times.
 //            I'm not sure if this causes efficiency problems.
-//           
-customizer.prototype.init = function(){
+//
+Customizer.prototype.init = function(){
   'use strict';
-  
+
 
   this.gulp.task('customizer:preparing'+this.ID.toString(), function(callback) {
     console.log("customizer:preparing"+this.ID.toString());
-    
+
     this.config.style.forEach(function(file) {
       this.less.push(format('@import "%s";', file));
 
@@ -179,7 +179,7 @@ customizer.prototype.init = function(){
   this.gulp.task('customizer:clean'+this.ID.toString(), function(cb) {
     console.log("customizer:clean"+this.ID.toString());
     del(this.DEFAULTS.tmp);
-    
+
     setTimeout(function(){
       del(this.DEFAULTS.dist+"/..", cb);
       console.log(this.ID.toString()+": Deleted")
@@ -205,19 +205,19 @@ customizer.prototype.init = function(){
       'customizer:preparing'+this.ID.toString(),
       ['customizer:less'+this.ID.toString(), 'customizer:js'+this.ID.toString()],
       'customizer:compress'+this.ID.toString(),
-      'customizer:callback'+this.ID.toString(), 
+      'customizer:callback'+this.ID.toString(),
       'customizer:clean'+this.ID.toString(),
       cb);
   }.bind(this));
 
 
 }
-  
 
-customizer.prototype.run = function() {
+
+Customizer.prototype.run = function() {
   // console.log("RUNNNNNNNNNNNNNNNNNNNNING");
   // gulp.task('customize',['customizer']);
   this.gulp.start('customizer'+this.ID.toString());
 };
 
-module.exports = customizer;
+module.exports = Customizer;
