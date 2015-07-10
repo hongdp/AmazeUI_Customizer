@@ -1,5 +1,4 @@
 /* jshint node: true */
-var gulp = require('gulp');
 var path = require('path');
 var fs = require('fs');
 var _ = require('lodash');
@@ -15,16 +14,15 @@ var file = require('../lib/file');
 var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 
-module.exports.init = function(customizeConfig, ID, callback){
-  'use strict';
-  var cstmzPath = path.join(__dirname, '../../customizer/', ID.toString(), '/dist');
-  var cstmzTmp = path.join(__dirname, '../../customizer/', ID.toString(), '/.cstmz-tmp');
-  
-  var DEFAULTS = {
-    dist: cstmzPath,
-    tmp: cstmzTmp,
-    js: path.join(cstmzTmp, 'js/amazeui.custom.js'),
-    less: path.join(cstmzTmp, 'less/amazeui.custom.less'),
+
+var customizer = function(customizeConfig, ID, callback){
+  this.cstmzPath = path.join(__dirname, '../../customizer/', ID.toString(), '/dist');
+  this.cstmzTmp = path.join(__dirname, '../../customizer/', ID.toString(), '/.cstmz-tmp');
+  this.DEFAULTS = {
+    dist: this.cstmzPath,
+    tmp: this.cstmzTmp,
+    js: path.join(this.cstmzTmp, 'js/amazeui.custom.js'),
+    less: path.join(this.cstmzTmp, 'less/amazeui.custom.less'),
     AUTOPREFIXER_BROWSERS: [
       'ie >= 8',
       'ie_mob >= 10',
@@ -46,8 +44,7 @@ module.exports.init = function(customizeConfig, ID, callback){
       'utility.less'
     ]
   };
-
-  var config = customizeConfig||{
+  this.config = customizeConfig||{
     "style": [
       "variables.less",
       "mixins.less",
@@ -67,128 +64,160 @@ module.exports.init = function(customizeConfig, ID, callback){
     ]
   } 
 
-  var less = [
+  this.less = [
     '@import "variables.less";',
     '@import "mixins.less";',
     '@import "base.less";'
   ];
-  var js = [
+  this.js = [
     'require("core");'
   ];
+  this.gulp = require('gulp');
+  this.ID = ID;
+  this.callback = callback;
+  console.log(this.config);
+}
 
-  gulp.task('customizer:preparing', function(callback) {
-    config.style.forEach(function(file) {
-      less.push(format('@import "%s";', file));
-    });
 
-    config.js.forEach(function(file) {
-      js.push(format('require("%s");', file));
-    });
+
+// ATTENTION: Adding ID to task name to avoid the problems happened when running same task multiple times.
+//            I'm not sure if this causes efficiency problems.
+//           
+customizer.prototype.init = function(){
+  'use strict';
+  
+
+  this.gulp.task('customizer:preparing'+this.ID.toString(), function(callback) {
+    console.log("customizer:preparing"+this.ID.toString());
+    
+    this.config.style.forEach(function(file) {
+      this.less.push(format('@import "%s";', file));
+
+    }.bind(this));
+
+    this.config.js.forEach(function(file) {
+      this.js.push(format('require("%s");', file));
+    }.bind(this));
 
     // widgets
-    if (config.widgets) {
-      if (config.widgets.length) {
-        DEFAULTS.widgetBase.forEach(function(base) {
-          less.push(format('@import "%s";', base));
-        });
+    if (this.config.widgets) {
+      if (this.config.widgets.length) {
+        this.DEFAULTS.widgetBase.forEach(function(base) {
+          this.less.push(format('@import "%s";', base));
+        }.bind(this));
       }
 
-      config.widgets.forEach(function(widget) {
-        js.push(format('require("%s/src/%s");', widget.name, widget.name));
-        less.push(format('@import "../../widget/%s/src/%s.less";',
+      this.config.widgets.forEach(function(widget) {
+        this.js.push(format('require("%s/src/%s");', widget.name, widget.name));
+        this.less.push(format('@import "../../../../widget/%s/src/%s.less";',
           widget.name, widget.name));
         var pkg = require(path.join('../../widget', widget.name, 'package.json'));
-
         pkg.styleDependencies.forEach(function(dep) {
-          less.push(format('@import "%s";', dep));
-        });
+          this.less.push(format('@import "%s";', dep));
+        }.bind(this));
 
         if (widget.theme) {
           widget.theme.forEach(function(theme) {
-            less.push(format('@import "../../widget/%s/src/%s";', widget.name,
+            console.log(theme);
+            this.less.push(format('@import "../../../../widget/%s/src/%s";', widget.name,
               theme));
-          });
+          }.bind(this));
         }
-      });
+      }.bind(this));
     }
 
-    file.write(DEFAULTS.less, _.uniq(less).join('\n'));
-    file.write(DEFAULTS.js, _.uniq(js).join('\n'));
+    file.write(this.DEFAULTS.less, _.uniq(this.less).join('\n'));
+    file.write(this.DEFAULTS.js, _.uniq(this.js).join('\n'));
 
     callback();
-  });
+  }.bind(this));
 
-  gulp.task('customizer:less', function() {
-    gulp.src(DEFAULTS.less)
+  this.gulp.task('customizer:less'+this.ID.toString(), function() {
+    console.log("customizer:less"+this.ID.toString());
+    this.gulp.src(this.DEFAULTS.less)
       .pipe($.less({
         paths: [
           path.join(__dirname, '../../less')
         ]
       }))
       .pipe($.autoprefixer({
-        browsers: config.AUTOPREFIXER_BROWSERS ||
-        DEFAULTS.AUTOPREFIXER_BROWSERS
+        browsers: this.config.AUTOPREFIXER_BROWSERS ||
+        this.DEFAULTS.AUTOPREFIXER_BROWSERS
       }))
-      .pipe(gulp.dest(cstmzPath))
+      .pipe(this.gulp.dest(this.cstmzPath))
       .pipe($.size({showFiles: true, title: 'source'}))
       .pipe($.minifyCss({noAdvanced: true}))
       .pipe($.rename({
         suffix: '.min',
         extname: '.css'
       }))
-      .pipe(gulp.dest(cstmzPath))
+      .pipe(this.gulp.dest(this.cstmzPath))
       .pipe($.size({showFiles: true, title: 'minified'}))
       .pipe($.size({showFiles: true, gzip: true, title: 'gzipped'}));
-  });
+  }.bind(this));
 
-  gulp.task('customizer:js', function() {
+  this.gulp.task('customizer:js'+this.ID.toString(), function() {
+    console.log("customizer:js"+this.ID.toString());
     return browserify({
-      entries: DEFAULTS.js,
+      entries: this.DEFAULTS.js,
       paths: [path.join(__dirname, '../../js'), path.join(__dirname, '../../widget')]
     }).plugin(collapser).bundle()
       .pipe(source('amazeui.custom.js'))
       .pipe(buffer())
-      .pipe(gulp.dest(cstmzPath))
+      .pipe(this.gulp.dest(this.cstmzPath))
       .pipe($.uglify({
         output: {
           ascii_only: true
         }
       }))
       .pipe($.rename({suffix: '.min'}))
-      .pipe(gulp.dest(cstmzPath))
+      .pipe(this.gulp.dest(this.cstmzPath))
       .pipe($.size({showFiles: true, title: 'minified'}))
       .pipe($.size({showFiles: true, gzip: true, title: 'gzipped'}));
-  });
+  }.bind(this));
 
-  gulp.task('customizer:clean', function(cb) {
-    del(DEFAULTS.tmp);
+  this.gulp.task('customizer:clean'+this.ID.toString(), function(cb) {
+    console.log("customizer:clean"+this.ID.toString());
+    del(this.DEFAULTS.tmp);
     
     setTimeout(function(){
-      del(DEFAULTS.dist+"/..", cb);
-      console.log(ID.toString()+": Deleted")
-    },10000);
-  });
-  gulp.task('customizer:callback', callback);
-  gulp.task('customizer:compress', function() {
-    return gulp.src(path.join(DEFAULTS.dist, '*'))
+      del(this.DEFAULTS.dist+"/..", cb);
+      console.log(this.ID.toString()+": Deleted")
+    }.bind(this),10000);
+  }.bind(this));
+
+
+  this.gulp.task('customizer:callback'+this.ID.toString(), this.callback);
+
+
+
+  this.gulp.task('customizer:compress'+this.ID.toString(), function() {
+    console.log("customizer:compress"+this.ID.toString());
+    return this.gulp.src(path.join(this.DEFAULTS.dist, '*'))
         .pipe(tar('amazeui.tar'))
         .pipe(gzip())
-        .pipe(gulp.dest(DEFAULTS.dist+"/.."));
-  });
-  gulp.task('customizer', function(cb) {
+        .pipe(this.gulp.dest(this.DEFAULTS.dist+"/.."));
+  }.bind(this));
+
+
+  this.gulp.task('customizer'+this.ID.toString(), function(cb) {
     runSequence(
-      'customizer:preparing',
-      ['customizer:less', 'customizer:js'],'customizer:compress',
-      ['customizer:clean','customizer:callback'],
+      'customizer:preparing'+this.ID.toString(),
+      ['customizer:less'+this.ID.toString(), 'customizer:js'+this.ID.toString()],
+      'customizer:compress'+this.ID.toString(),
+      'customizer:callback'+this.ID.toString(), 
+      'customizer:clean'+this.ID.toString(),
       cb);
-  });
+  }.bind(this));
 
 
 }
   
 
-module.exports.run = function() {
-  console.log("RUNNNNNNNNNNNNNNNNNNNNING")
-
-  gulp.start('customizer');
+customizer.prototype.run = function() {
+  // console.log("RUNNNNNNNNNNNNNNNNNNNNING");
+  // gulp.task('customize',['customizer']);
+  this.gulp.start('customizer'+this.ID.toString());
 };
+
+module.exports = customizer;
