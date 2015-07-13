@@ -6,7 +6,6 @@ var format = require('util').format;
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
-var del = require('del');
 var runSequence = require('run-sequence');
 var $ = require('gulp-load-plugins')();
 var collapser = require('bundle-collapser/plugin');
@@ -15,7 +14,7 @@ var tar = require('gulp-tar');
 var gzip = require('gulp-gzip');
 
 
-var Customizer = function(customizeConfig, ID, callback){
+var customizer = function(customizeConfig, ID, callback){
   this.cstmzPath = path.join(__dirname, '../../customizer/', ID.toString(), '/dist');
   this.cstmzTmp = path.join(__dirname, '../../customizer/', ID.toString(), '/.cstmz-tmp');
   this.DEFAULTS = {
@@ -75,7 +74,7 @@ var Customizer = function(customizeConfig, ID, callback){
   this.gulp = require('gulp');
   this.ID = ID;
   this.callback = callback;
-  console.log(this.config);
+  //console.log(this.config);
 }
 
 
@@ -83,7 +82,7 @@ var Customizer = function(customizeConfig, ID, callback){
 // ATTENTION: Adding ID to task name to avoid the problems happened when running same task multiple times.
 //            I'm not sure if this causes efficiency problems.
 //
-Customizer.prototype.init = function(){
+customizer.prototype.init = function(){
   'use strict';
 
 
@@ -176,17 +175,6 @@ Customizer.prototype.init = function(){
       .pipe($.size({showFiles: true, gzip: true, title: 'gzipped'}));
   }.bind(this));
 
-  this.gulp.task('customizer:clean'+this.ID.toString(), function(cb) {
-    console.log("customizer:clean"+this.ID.toString());
-    del(this.DEFAULTS.tmp);
-
-    setTimeout(function(){
-      del(this.DEFAULTS.dist+"/..", cb);
-      console.log(this.ID.toString()+": Deleted")
-    }.bind(this),10000);
-  }.bind(this));
-
-
   this.gulp.task('customizer:callback'+this.ID.toString(), this.callback);
 
 
@@ -206,7 +194,6 @@ Customizer.prototype.init = function(){
       ['customizer:less'+this.ID.toString(), 'customizer:js'+this.ID.toString()],
       'customizer:compress'+this.ID.toString(),
       'customizer:callback'+this.ID.toString(),
-      'customizer:clean'+this.ID.toString(),
       cb);
   }.bind(this));
 
@@ -214,10 +201,10 @@ Customizer.prototype.init = function(){
 }
 
 
-Customizer.prototype.run = function() {
+customizer.prototype.run = function() {
   // console.log("RUNNNNNNNNNNNNNNNNNNNNING");
   // gulp.task('customize',['customizer']);
   this.gulp.start('customizer'+this.ID.toString());
 };
 
-module.exports = Customizer;
+module.exports = customizer;
