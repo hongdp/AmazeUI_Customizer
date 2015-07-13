@@ -8,7 +8,8 @@ var express = require('express'),
     errorHandler = require('errorhandler'),
     fs = require('fs'),
     Customizer = require('./tools/tasks'),
-    cp = require('child_process');
+    cp = require('child_process'),
+    ejs = require('ejs');
 var app = express();
 
 var globalCount = 0;
@@ -17,9 +18,11 @@ var globalCount = 0;
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
+app.set('view engine', 'ejs');
+app.set('views', __dirname + '/views');
+app.set('view options', { layout: false });
 app.get('/customizer', function(req, res){
-  res.send('<form action="" method="post"><input value="{&quot;style&quot;:[&quot;ui.component.less&quot;,&quot;animation.less&quot;,&quot;ui.modal.less&quot;,&quot;close.less&quot;,&quot;variables.less&quot;,&quot;mixins.less&quot;,&quot;base.less&quot;],&quot;js&quot;:[&quot;ui.dimmer.js&quot;,&quot;core.js&quot;,&quot;ui.modal.js&quot;,&quot;ui.pinchzoom.js&quot;,&quot;ui.scrollspy.js&quot;,&quot;ui.smooth-scroll.js&quot;,&quot;ui.sticky.js&quot;],&quot;widgets&quot;:[{&quot;name&quot;:&quot;slider&quot;,&quot;theme&quot;:[&quot;slider.default.less&quot;]}]}" name="config" id="cst-config" type="hidden"> <button type="submit" id="amz-compile" download="amazeui.tar.gz" class="am-btn am-btn-success">下载定制配置文件</button></form>')
+  res.render('customizer');
 });
 
 app.post('/customizer', function(req, res){

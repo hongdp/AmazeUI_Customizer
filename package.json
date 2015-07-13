@@ -35,6 +35,7 @@
     "url": "https://github.com/allmobilize/amazeui/issues"
   },
   "dependencies": {
+    "ejs": "^2.3.3",
     "jquery": "latest"
   },
   "devDependencies": {
