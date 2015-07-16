@@ -184,6 +184,7 @@ customizer.prototype.runLess = function(){
       console.log('autoprefixer');
       file.write(path.join(this.cstmzPath, 'amazeui.custom.css'), result.css);
       var minified = new cleanCSS().minify(result.css).styles;
+      file.write(path.join(this.cstmzPath, 'amazeui.custom.min.css'), minified);
       this.counter-- || this.compress('less');
     }.bind(this));
   }.bind(this));
