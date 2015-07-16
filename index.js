@@ -1,15 +1,9 @@
+'use strict';
 var express = require('express'),
-    path = require('path'),
     del = require('del'),
-    logger = require('morgan'),
-    cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    hbs = require('hbs'),
-    errorHandler = require('errorhandler'),
     fs = require('fs'),
-    Customizer = require('./tools/tasks'),
-    cp = require('child_process'),
-    ejs = require('ejs');
+    cp = require('child_process');
 var app = express();
 
 var globalCount = 0;
@@ -37,7 +31,7 @@ app.post('/customizer', function(req, res){
       console.log('Child is ready');
       child.send(childMsg);
     } else if (m === 'done') {
-      var filename = "amazeui.tar.gz";
+      var filename = 'amazeui.tar';
       console.log(requestID.toString()+'FINISHED');
       res.download(path+filename, filename, function(err) {
         if (err) {
@@ -51,15 +45,15 @@ app.post('/customizer', function(req, res){
         }
         else {
           console.log('Sent:', filename);
-          res.status(200).end()
+          res.status(200).end();
         }
         child.kill();
         fs.exists(path, function (exists) {
           if(exists){
-            console.log('Path exists. Cleaning temp files.')
+            console.log('Path exists. Cleaning temp files.');
             setTimeout(function(){
               del(path);
-              console.log(requestID.toString()+": Deleted")
+              console.log(requestID.toString()+': Deleted');
             },5000);
           }
         });
@@ -68,18 +62,18 @@ app.post('/customizer', function(req, res){
   });
 
   req.on('close', function(){
-    console.log('Connection lost. Killing process.')
+    console.log('Connection lost. Killing process.');
     child.kill();
     fs.exists(path, function (exists) {
       if (exists) {
-        console.log('Path exists. Cleaning temp files.')
+        console.log('Path exists. Cleaning temp files.');
         setTimeout(function () {
           del(path);
-          console.log(requestID.toString() + ": Deleted")
+          console.log(requestID.toString() + ': Deleted');
         }, 5000);
       }
     });
-  })
+  });
 
 });
 

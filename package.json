@@ -36,7 +36,11 @@
   },
   "dependencies": {
     "ejs": "^2.3.3",
-    "jquery": "latest"
+    "fstream": "^1.0.7",
+    "jquery": "latest",
+    "less": "^2.5.1",
+    "tar": "^2.1.1",
+    "uglify-js2": "^2.1.11"
   },
   "devDependencies": {
     "bistre": "^1.0.1",
@@ -69,6 +73,7 @@
     "gulp-zip": "^3.0.2",
     "handlebars": "^3.0.3",
     "hbs": "^3.0.1",
+    "jshint": "^2.8.0",
     "less-middleware": "^2.0.1",
     "lodash": "^3.9.3",
     "morgan": "^1.6.1",
