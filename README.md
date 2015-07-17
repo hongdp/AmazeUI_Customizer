@@ -9,8 +9,6 @@ Amaze UI is an open source front-end library. This project is the backend of an 
 
 First run `npm install` to install node modules. Then run node index.js to start the server on 8000.
 
-```
-
 ## Build Tools
 
 The gulp branch uses [gulp.js](http://gulpjs.com/) to build Amaze UI.
