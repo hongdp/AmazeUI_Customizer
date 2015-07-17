@@ -1,3 +1,6 @@
+/Customizer/*
+/.idea/*
+/node_modules/*
 /Customizer
 /.idea
 /node_modules
