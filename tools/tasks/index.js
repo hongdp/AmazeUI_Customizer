@@ -14,7 +14,7 @@ var cleanCSS = require('clean-css')
 var autoprefixer = require('autoprefixer-core');
 var postcss = require('postcss');
 
-var customizer = function(customizeConfig, ID, callback){
+var customizer = function(customizeConfig, ID, successCallback, errorCallback){
   'use strict';
   this.counter = 1;
   this.cstmzPath = path.join(__dirname, '../../customizer/', ID.toString(), '/dist');
@@ -74,7 +74,8 @@ var customizer = function(customizeConfig, ID, callback){
     'require("core");'
   ];
   this.ID = ID;
-  this.callback = callback;
+  this.successCallback = successCallback;
+  this.errorCallback = errorCallback;
   //console.log(this.config);
 };
 
@@ -130,7 +131,12 @@ customizer.prototype.runJS = function(){
   var bundleStream = browserify({
     entries: this.DEFAULTS.js,
     paths: [path.join(__dirname, '../../js'), path.join(__dirname, '../../widget')]
-  }).plugin(collapser).bundle();
+  }).plugin(collapser).bundle().on('error', function(err){
+    console.error(err);
+    this.errorCallback();
+    this.emit('end');
+  }.bind(this));
+  
   var bundleFile = '';
   bundleStream.on('data', function(data){
     bundleFile += data;
@@ -141,15 +147,21 @@ customizer.prototype.runJS = function(){
     // ast.figure_out_scope();
     // var compressor = UglifyJS.Compressor();
     // ast = ast.transform(compressor);
-    var code = UglifyJS.minify(bundleFile, {
+    try{
+      var code = UglifyJS.minify(bundleFile, {
         output: {
           ascii_only: true
         },
         fromString: true
       }).code; // get compressed code
+    } catch(e) {
+      console.error(e);
+      this.errorCallback();
+    }
+    
     file.write(path.join(this.cstmzPath, 'amazeui.custom.min.js'), code);
     file.write(path.join(this.cstmzPath, 'amazeui.custom.js'), bundleFile);
-    this.counter-- || this.compress('js');
+    this.counter-- || this.packup('js');
   }.bind(this));
 
 };
@@ -174,6 +186,7 @@ customizer.prototype.runLess = function(){
 
     if(error){
       console.log('ERROR: ', error.message);
+      this.errorCallback();
       return;
     }
     // console.log(path.join(this.cstmzPath, 'amazeui.custom.css'));
@@ -185,22 +198,23 @@ customizer.prototype.runLess = function(){
       file.write(path.join(this.cstmzPath, 'amazeui.custom.css'), result.css);
       var minified = new cleanCSS().minify(result.css).styles;
       file.write(path.join(this.cstmzPath, 'amazeui.custom.min.css'), minified);
-      this.counter-- || this.compress('less');
+      this.counter-- || this.packup('less');
     }.bind(this));
   }.bind(this));
 
 };
 
-customizer.prototype.compress = function(msg){
+customizer.prototype.packup = function(msg){
   'use strict';
   console.log('from ', msg);
   var dirDest = fs.createWriteStream(path.join(this.cstmzPath, '../amazeui.tar'));
   function onError(err) {
     console.error('An error occurred:', err);
+    this.errorCallback();
   }
 
   function onEnd() {
-    this.callback();
+    this.successCallback();
   };
 
   var packer = tar.Pack({ noProprietary: true })
@@ -219,9 +233,10 @@ customizer.prototype.run = function() {
   'use strict';
   // console.log('RUNNNNNNNNNNNNNNNNNNNNING');
   // gulp.task('customize',['customizer']);
+  this.init()
   console.log(this.cstmzPath);
-  this.runLess(this.compress);
-  this.runJS(this.compress);
+  this.runLess();
+  this.runJS();
   // this.gulp.start('customizer'+this.ID.toString());
 };
 

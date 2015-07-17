@@ -26,6 +26,21 @@ app.post('/customizer', function(req, res){
   childMsg.config = JSON.parse(req.body.config);
   var child = cp.fork('child.js');
   var path = __dirname + '/customizer/' + requestID.toString() + '/';
+
+  var killAndClean = function(){
+    console.log('Connection lost. Killing process.');
+    child.kill();
+    fs.exists(path, function (exists) {
+      if (exists) {
+        console.log('Path exists. Cleaning temp files.');
+        setTimeout(function () {
+          del(path);
+          console.log(requestID.toString() + ': Deleted');
+        }, 5000);
+      }
+    });
+  }
+
   child.on('message', function(m){
     if (m === 'ready') {
       console.log('Child is ready');
@@ -58,22 +73,14 @@ app.post('/customizer', function(req, res){
           }
         });
       });
+    } else if (m === 'error'){
+      console.error('Error occured! Closing connection.');
+      res.status(404).end();
+      killAndClean();
     }
   });
 
-  req.on('close', function(){
-    console.log('Connection lost. Killing process.');
-    child.kill();
-    fs.exists(path, function (exists) {
-      if (exists) {
-        console.log('Path exists. Cleaning temp files.');
-        setTimeout(function () {
-          del(path);
-          console.log(requestID.toString() + ': Deleted');
-        }, 5000);
-      }
-    });
-  });
+  req.on('close', killAndClean);
 
 });
 
