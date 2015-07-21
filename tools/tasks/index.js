@@ -95,7 +95,7 @@ var customizer = function(customizeConfig, ID, successCallback, errorCallback){
       this.js.push(format('require("%s/src/%s");', widget.name, widget.name));
       this.less.push(format('@import "../widget/%s/src/%s.less";',
         widget.name, widget.name));
-      var pkg = require(path.join('../../widget', widget.name, 'package.json'));
+      var pkg = require(path.join('../../amazeui/widget', widget.name, 'package.json'));
       pkg.styleDependencies.forEach(function(dep) {
         this.less.push(format('@import "%s";', dep));
       }.bind(this));
