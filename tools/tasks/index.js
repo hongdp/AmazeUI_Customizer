@@ -104,9 +104,9 @@ customizer.prototype.init = function(){
 
     this.config.widgets.forEach(function(widget) {
       this.js.push(format('require("%s/src/%s");', widget.name, widget.name));
-      this.less.push(format('@import "../widget/%s/src/%s.less";',
+      this.less.push(format('@import "../amazeui/widget/%s/src/%s.less";',
         widget.name, widget.name));
-      var pkg = require(path.join('../../widget', widget.name, 'package.json'));
+      var pkg = require(path.join('../../amazeui/widget', widget.name, 'package.json'));
       pkg.styleDependencies.forEach(function(dep) {
         this.less.push(format('@import "%s";', dep));
       }.bind(this));
@@ -114,7 +114,7 @@ customizer.prototype.init = function(){
       if (widget.theme) {
         widget.theme.forEach(function(theme) {
           console.log(theme);
-          this.less.push(format('@import "../widget/%s/src/%s";', widget.name,
+          this.less.push(format('@import "../amazeui/widget/%s/src/%s";', widget.name,
             theme));
         }.bind(this));
       }
@@ -130,8 +130,8 @@ customizer.prototype.runJS = function(){
   console.log('js started');
   var bundleStream = browserify({
     entries: this.DEFAULTS.js,
-    paths: [path.join(__dirname, '../../js'), path.join(__dirname, '../../widget')]
-  }).plugin(collapser).bundle().on('error', function(err){
+    paths: [path.join(__dirname, '../../amazeui/js'), path.join(__dirname, '../../amazeui/widget')]
+  }).bundle().on('error', function(err){
     console.error(err);
     this.errorCallback();
     this.emit('end');
@@ -171,7 +171,7 @@ customizer.prototype.runLess = function(){
   console.log('less started.');
   var options = {
     paths: [
-      path.join(__dirname, '../../less')
+      path.join(__dirname, '../../amazeui/less')
     ],
     compress: false
   };
