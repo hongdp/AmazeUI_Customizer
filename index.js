@@ -7,7 +7,7 @@ var express = require('express'),
 var app = express();
 
 var globalCount = 0;
-
+var port = process.env.PORT || 8000;
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -84,4 +84,4 @@ app.post('/customizer', function(req, res){
 
 });
 
-app.listen(8000);
+app.listen(port);
