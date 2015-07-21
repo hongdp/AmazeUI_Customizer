@@ -5,6 +5,13 @@ Amaze UI is an open source front-end library. This project is the backend of an 
 
 ### [Amaze UI](https://github.com/allmobilize/amazeui)
 
+## How to get
+
+Use `git clone` to get this repo.
+
+**Attention:**
+This repo contains Amaze UI repo as a submodule, so please run `git submodule update --init --resursive` to get Amaze UI.
+
 ## Usage
 
 First run `npm install` to install node modules. Then run node index.js to start the server on 8000.
