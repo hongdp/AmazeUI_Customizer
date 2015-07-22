@@ -20,7 +20,7 @@
   "homepage": "http://amazeui.org",
   "author": "Allmobilize, Inc.",
   "scripts": {
-    "start": "node index.js"
+    "start": "./start.sh"
   },
   "style": "dist/css/amazeui.css",
   "less": "less/amazeui.less",
