@@ -15,11 +15,11 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + '/views');
 app.set('view options', { layout: false });
-app.get('/customizer', function(req, res){
+app.get('/', function(req, res){
   res.render('customizer');
 });
 
-app.post('/customizer', function(req, res){
+app.post('/', function(req, res){
   var childMsg = {};
   var requestID = globalCount++;
   childMsg.requestID = requestID;
