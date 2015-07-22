@@ -1,4 +1,2 @@
-cd amazeui
-git submodule update
-cd ..
+git submodule update --init --resursive
 node index.js
