@@ -20,9 +20,7 @@
   "homepage": "http://amazeui.org",
   "author": "Allmobilize, Inc.",
   "scripts": {
-    "start": "nodemon tools/app/app.js",
-    "build": "gulp install && gulp",
-    "preview": "gulp preview"
+    "start": "node index.js"
   },
   "style": "dist/css/amazeui.css",
   "less": "less/amazeui.less",
