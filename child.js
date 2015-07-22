@@ -10,8 +10,6 @@ process.on('message', function(msg) {
   	process.send('error');
   }
   var customizerInst = new Customizer(msg.config, msg.requestID, successCallback, errorCallback);
-  // console.log(customizerInst.config);
-  customizerInst.init();
   // console.log("GOING TO RUN")
   customizerInst.run();
 });

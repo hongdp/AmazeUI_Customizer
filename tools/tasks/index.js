@@ -16,14 +16,13 @@ var postcss = require('postcss');
 
 var customizer = function(customizeConfig, ID, successCallback, errorCallback){
   'use strict';
-  this.counter = 1;
+  this.callbackCounter = 1;
   this.cstmzPath = path.join(__dirname, '../../customizer/', ID.toString(), '/dist');
   this.cstmzTmp = path.join(__dirname, '../../customizer/', ID.toString(), '/.cstmz-tmp');
   this.DEFAULTS = {
     dist: this.cstmzPath,
     tmp: this.cstmzTmp,
     js: path.join(this.cstmzTmp, 'js/amazeui.custom.js'),
-    // less: path.join(this.cstmzTmp, 'less/amazeui.custom.less'),
     AUTOPREFIXER_BROWSERS: [
       'ie >= 8',
       'ie_mob >= 10',
@@ -76,17 +75,7 @@ var customizer = function(customizeConfig, ID, successCallback, errorCallback){
   this.ID = ID;
   this.successCallback = successCallback;
   this.errorCallback = errorCallback;
-  //console.log(this.config);
-};
-
-
-
-// ATTENTION: Adding ID to task name to avoid the problems happened when running same task multiple times.
-//            I'm not sure if this causes efficiency problems.
-//
-customizer.prototype.init = function(){
-  'use strict';
-
+  
   this.config.style.forEach(function(file) {
     this.less.push(format('@import "%s";', file));
   }.bind(this));
@@ -104,7 +93,7 @@ customizer.prototype.init = function(){
 
     this.config.widgets.forEach(function(widget) {
       this.js.push(format('require("%s/src/%s");', widget.name, widget.name));
-      this.less.push(format('@import "../amazeui/widget/%s/src/%s.less";',
+      this.less.push(format('@import "../widget/%s/src/%s.less";',
         widget.name, widget.name));
       var pkg = require(path.join('../../amazeui/widget', widget.name, 'package.json'));
       pkg.styleDependencies.forEach(function(dep) {
@@ -114,40 +103,36 @@ customizer.prototype.init = function(){
       if (widget.theme) {
         widget.theme.forEach(function(theme) {
           console.log(theme);
-          this.less.push(format('@import "../amazeui/widget/%s/src/%s";', widget.name,
+          this.less.push(format('@import "../widget/%s/src/%s";', widget.name,
             theme));
         }.bind(this));
       }
     }.bind(this));
   }
 
-  // file.write(this.DEFAULTS.less, _.uniq(this.less).join('\n'));
   file.write(this.DEFAULTS.js, _.uniq(this.js).join('\n'));
 };
 
-customizer.prototype.runJS = function(){
+
+customizer.prototype.customizeJS = function(){
   'use strict';
   console.log('js started');
+  var bundleFile = '';
+  console.time('browserify');
   var bundleStream = browserify({
     entries: this.DEFAULTS.js,
     paths: [path.join(__dirname, '../../amazeui/js'), path.join(__dirname, '../../amazeui/widget')]
-  }).bundle().on('error', function(err){
-    console.error(err);
-    this.errorCallback();
-    this.emit('end');
-  }.bind(this));
-  
-  var bundleFile = '';
-  bundleStream.on('data', function(data){
-    bundleFile += data;
-  })
-  .on('end', function(){
-    // // console.log(this.DEFAULTS.js);
-    // var ast = UglifyJS.parse(bundleFile);
-    // ast.figure_out_scope();
-    // var compressor = UglifyJS.Compressor();
-    // ast = ast.transform(compressor);
+  }).bundle(function(err,buf){
+    if(err){
+      console.error(err);
+      this.errorCallback();
+      this.emit('end');
+    }
+    console.log('browserified');
+    console.timeEnd('browserify');
+    bundleFile = buf.toString();
     try{
+      console.time('minify');
       var code = UglifyJS.minify(bundleFile, {
         output: {
           ascii_only: true
@@ -158,15 +143,14 @@ customizer.prototype.runJS = function(){
       console.error(e);
       this.errorCallback();
     }
-    
+    console.timeEnd('minify');
     file.write(path.join(this.cstmzPath, 'amazeui.custom.min.js'), code);
     file.write(path.join(this.cstmzPath, 'amazeui.custom.js'), bundleFile);
-    this.counter-- || this.packup('js');
+    this.callbackCounter-- || this.packUp('js');
   }.bind(this));
-
 };
 
-customizer.prototype.runLess = function(){
+customizer.prototype.customizeLESS = function(){
   'use strict';
   console.log('less started.');
   var options = {
@@ -180,8 +164,6 @@ customizer.prototype.runLess = function(){
     this.DEFAULTS.AUTOPREFIXER_BROWSERS
   }
 
-  // console.log('start rendering');
-  // console.log(this.less);
   less.render(_.unique(this.less).join('\n'), options, function(error, output) {
 
     if(error){
@@ -189,7 +171,7 @@ customizer.prototype.runLess = function(){
       this.errorCallback();
       return;
     }
-    // console.log(path.join(this.cstmzPath, 'amazeui.custom.css'));
+
     postcss([autoprefixer(prefixOpts)]).process(output.css, {map: false}).then(function (result) {
       result.warnings().forEach(function (warn) {
           console.warn(warn.toString());
@@ -198,13 +180,13 @@ customizer.prototype.runLess = function(){
       file.write(path.join(this.cstmzPath, 'amazeui.custom.css'), result.css);
       var minified = new cleanCSS().minify(result.css).styles;
       file.write(path.join(this.cstmzPath, 'amazeui.custom.min.css'), minified);
-      this.counter-- || this.packup('less');
+      this.callbackCounter-- || this.packUp('less');
     }.bind(this));
   }.bind(this));
 
 };
 
-customizer.prototype.packup = function(msg){
+customizer.prototype.packUp = function(msg){
   'use strict';
   console.log('from ', msg);
   var dirDest = fs.createWriteStream(path.join(this.cstmzPath, '../amazeui.tar'));
@@ -231,13 +213,8 @@ customizer.prototype.packup = function(msg){
 
 customizer.prototype.run = function() {
   'use strict';
-  // console.log('RUNNNNNNNNNNNNNNNNNNNNING');
-  // gulp.task('customize',['customizer']);
-  this.init()
-  console.log(this.cstmzPath);
-  this.runLess();
-  this.runJS();
-  // this.gulp.start('customizer'+this.ID.toString());
+  this.customizeLESS();
+  this.customizeJS();
 };
 
 module.exports = customizer;
