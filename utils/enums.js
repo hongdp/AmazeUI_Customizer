@@ -3,12 +3,13 @@ var enums = {
 		Init: 0,
 		Waiting: 1,
 		Compiling: 2,
-		Done: 3
+		Done: 3,
+		Cancled: 4
 	},
 	ToChildMsgTypes: {
 		Run: 0,
 		Stop: 1
-	}
+	},
 	FromChildMsgTypes: {
 		Ready: 0,
 		Done: 1,

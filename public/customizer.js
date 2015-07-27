@@ -11,20 +11,22 @@ $(function(){
 			console.log(msg);
 			$.post('/', msg, function(data){
 				var info = JSON.parse(data);
-				var reqestID = info.ID;
+				var reqestID = info.reqID;
 				var secret = info.secret;
 				var done = false;
 
-				setTimeout(check, 2000);
+				setTimeout(check, 1000);
 
 				function check() {
-					$.post('/', {type: 'check', id: reqestID, secret: secret}, funciton(done) {
+					$.post('/', {type: 'check', reqID: reqestID, secret: secret}, function(done){
 						if(done === 'Done') {
 							fetchFile();
 						} else if (done === 'Compiling') {
-							setTimeout(check, 2000);
+							setTimeout(check, 1000);
+						} else if (done === 'Waiting') {
+							setTimeout(check, 1000);
 						}
-					})
+					});
 				}
 
 				function fetchFile() {

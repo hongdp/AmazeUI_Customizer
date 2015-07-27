@@ -1,79 +1,105 @@
 var cp = require('child_process');
-var randomPassword = require('./randomPassword.js');
 var enums = require('./enums.js');
 var util = require('util');
 var events = require("events");
 
 pool = function(workerNum, src) {
-	this._reqInfos = {};
-	this._currentReqID = 0;
+	this._taskInfos = {};
+	this._currentTaskID = 0;
 	this._TaskQ = [];
 	this._WorkerQ = [];
 	this._idCount = 0;
-	for (var i = =; i < workerNum; i++) {
+	this.src = src;
+	for (var i = 0; i < workerNum; i++) {
 		var child = cp.fork(src);
-		this.WorkerQ.push(child);
-	};
-}
+		this._WorkerQ.push(child);
+	}
+	setInterval(function() {
+		for(var i in this._taskInfos) {
+      if(!this._taskInfos.hasOwnProperty(i)){
+        continue;
+      }
+			if(!this._taskInfos[i].checked){
+				this._taskInfos[i].emit('cancle');
+				delete this._taskInfos[i];
+			}
+		}
+  }.bind(this), 2000)
+};
 pool.prototype._addFreeWorker = function(worker) {
-	if(this._TaskQ.empty()){
+	if(this._TaskQ.length){
 		this._WorkerQ.push(worker);
 	} else {
-		var reqID = this._TaskQ.shift();
-		var reqInfo = this._reqInfos[reqID];
-		var msg = {
-			type: enums.ToChildMsgTypes.Run,
-			config: reqInfo.config
+		while (!this._taskInfos[taskID]) {
+			var taskID = this._TaskQ.shift();
 		}
-		worker.send(msg);
+		var taskInfo = this._taskInfos[taskID];
+		StartWorking(worker, taskInfo, taskID);
 	}
-}
-pool.prototype.validate = function(reqInfo) {
-	if (!reqInfos[reqInfo.reqID]) {
-		throw 'Request Not Found!';
-	} else {
-		return reqInfo.secret === reqInfos[reqInfo.reqID].secret;
+};
+pool.prototype._getTaskInfoByID = function(taskID) {
+	if(!this._taskInfos[taskID]) {
+		throw 'Taskinfo doesn\'t exist.'
 	}
-}
+	return this._taskInfos[taskID];
+};
+pool.prototype.checkTask = function(taskID, secret) {
+	try {
+		var taskInfo = this._getTaskInfoByID(taskID);
 
-pool.prototype.checkReq = function(reqInfo) {
-	if (this.validate(reqInfo)){
-		return 'Invalid request. Wrong secret.'
+	} catch(err) {
+		console.warn(err);
+		return enums.TaskStatus.Cancled;
 	}
-	reqInfos[reqID].checked = true;
-	if (reqInfos[reqInfo.reqID].status === enums.TaskStatus.Done) {
-		return 'Done!';
-	} else if (reqInfos[reqInfo.reqID].status === enums.TaskStatus.Compiling) {
-		return 'Compiling...';
-	} else if (reqInfos[reqInfo.reqID].status === enums.TaskStatus.Waiting) {
-		return 'Waiting. No. ' + (reqInfo.reqID - this._currentReqID);
-	}
-}
+	taskInfo.checked = true;
+	return taskInfo.status;
+};
 
-pool.prototype.newReq = function(config) {
-	var reqInfo = new ReqInfo(config, this._idCount++);
-
-	if (this._WorkerQ.empty) {
-		reqInfo.status = enums.TaskStatus.Waiting;
-		this._TaskQ.push(reqInfo)
+pool.prototype.newTask = function(args) {
+	var taskInfo = new this.TaskInfo(args);
+	var taskID = this._idCount++;
+	if (this._WorkerQ.length) {
+		taskInfo.status = enums.TaskStatus.Waiting;
+		this._TaskQ.push(taskID);
 	} else {
 		var worker = this._WorkerQ.shift();
-		var msg = {
-			type: enums.ToChildMsgTypes.Run,
-			config: reqInfo.config
-		}
-		worker.send(msg);
+		this._StartWorking(worker, taskInfo, taskID);
 	}
+	return taskInfo;
+};
 
-	return reqInfo;
-}
-
-function ReqInfo(config, reqID) {
+pool.prototype.TaskInfo = function(args) {
 	events.EventEmitter.call(this);
 	this.status = enums.TaskStatus.Init;
-	this.reqID = reqID;
-	this.secret = randomPassword();
-	this.config = config;
+	this.args = args;
+};
+
+pool.prototype._StartWorking = function(worker, taskInfo, taskID) {
+	var msg = {
+		type: enums.ToChildMsgTypes.Run,
+		args: taskInfo.args,
+		taskID: taskID
+	};
+	worker.send(msg);
+	worker.on('message', function(msg) {
+		if (msg.type === enums.FromCHildMsgTypes.Done) {
+			RefreshWorker(worker, this);
+			callback();
+		}
+	});
+	taskInfo.on('cancle', function() {
+		 RefreshWorker(worker, this);
+	})
+
+
+};
+
+function RefreshWorker(worker, pool) {
+  worker.kill();
+  var newWorker = cp.fork(this.src);
+  pool._addFreeWorker(newWorker);
 }
 
-util.inherits(ReqInfo, events.EventEmitter);
+
+util.inherits(pool.prototype.TaskInfo, events.EventEmitter);
+module.exports = pool;
