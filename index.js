@@ -6,9 +6,10 @@ var fs = require('fs');
 var enums = require('./utils/enums.js');
 var events = require("events");
 var app = express();
-var secrets = require('./utils/secret.js')
-var pool = new require('./utils/pool.js')(1,'./child.js');
-var port = process.env.PORT || 8000;
+var secrets = require('./utils/secret.js');
+var poolConstructor = require('./utils/pool.js');
+var pool = new poolConstructor(1,'./utils/child.js');
+var port = process.env.PORT || 3000;
 
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,7 +25,7 @@ app.get('/', function(req, res){
 
 app.post('/', function(req, res){
   var filename = 'amazeui.tar';
-  var config = JSON.parse(req.body.config || '');
+
   // var KillAndClean = function(){
   //   console.log('Connection lost. Killing process.');
   //   child.kill();
@@ -44,25 +45,35 @@ app.post('/', function(req, res){
   // }
 
   if(req.body.type === 'config'){
+    console.log('configuring');
+    var config = JSON.parse(req.body.config || '');
     var reqID = pool.newTask(config);
     var secret = secrets.NewSecret(reqID);
     res.send({reqID: reqID, secret: secret});
   } else if (req.body.type === 'check') {
+    console.log('checking');
     var reqID = req.body.reqID;
     var secret = req.body.secret;
-    var status = pool.checkReq(reqID, secret);
+    if(!secrets.Validate(reqID, secret)) {
+      res.send('Invalid');
+    }
+    var status = pool.checkTask(reqID);
     if (status === enums.TaskStatus.Done) {
       res.send('Done');
     } else if (status === enums.TaskStatus.Compiling) {
       res.send('Compiling');
     } else if (status === enums.TaskStatus.Waiting) {
       res.send('Waiting');
+    } else if (status === enums.TaskStatus.Canceled) {
+      res.send('Canceled');
     }
   } else if (req.body.type === 'fetch') {
+    console.log('fetching');
     var reqID = req.body.reqID;
     var secret = req.body.secret;
-    var path = __dirname + '/customizer/' + requestID.toString() + '/'
-    if (pool.validate(reqID, secret)) {
+    //console.log(req.body);
+    var path = __dirname + '/customizer/' + reqID + '/'
+    if (secrets.Validate(reqID, secret)) {
       res.download(path+filename, filename, function(err) {
         if (err) {
           console.log(err);
@@ -82,7 +93,7 @@ app.post('/', function(req, res){
             console.log('Path exists. Cleaning temp files.');
             setTimeout(function(){
               del(path);
-              console.log(requestID.toString()+': Deleted');
+              console.log(reqID.toString()+': Deleted');
             },4000);
           }
         });

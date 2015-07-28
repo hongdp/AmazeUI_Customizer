@@ -75,7 +75,7 @@ var customizer = function(customizeConfig, ID, successCallback, errorCallback){
   this.ID = ID;
   this.successCallback = successCallback;
   this.errorCallback = errorCallback;
-  
+
   this.config.style.forEach(function(file) {
     this.less.push(format('@import "%s";', file));
   }.bind(this));
@@ -196,6 +196,7 @@ customizer.prototype.packUp = function(msg){
   }
 
   function onEnd() {
+    console.log('Finishing');
     this.successCallback();
   };
 
@@ -213,8 +214,13 @@ customizer.prototype.packUp = function(msg){
 
 customizer.prototype.run = function() {
   'use strict';
-  this.customizeLESS();
-  this.customizeJS();
+  try{
+    this.customizeLESS();
+    this.customizeJS();
+  } catch(err) {
+    console.error(err);
+  }
+
 };
 
 module.exports = customizer;

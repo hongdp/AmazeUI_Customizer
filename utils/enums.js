@@ -4,7 +4,7 @@ var enums = {
 		Waiting: 1,
 		Compiling: 2,
 		Done: 3,
-		Cancled: 4
+		Canceled: 4
 	},
 	ToChildMsgTypes: {
 		Run: 0,
@@ -17,4 +17,4 @@ var enums = {
 	}
 }
 
-module.exports = enums
+module.exports = enums;

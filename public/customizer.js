@@ -9,8 +9,8 @@ $(function(){
 				}
 			});
 			console.log(msg);
-			$.post('/', msg, function(data){
-				var info = JSON.parse(data);
+			$.post('/', msg, function(info){
+        console.log('Done Config', info);
 				var reqestID = info.reqID;
 				var secret = info.secret;
 				var done = false;
@@ -18,28 +18,34 @@ $(function(){
 				setTimeout(check, 1000);
 
 				function check() {
-					$.post('/', {type: 'check', reqID: reqestID, secret: secret}, function(done){
-						if(done === 'Done') {
+          var msg = {type: 'check', reqID: reqestID, secret: secret}
+					$.post('/', msg, function(status){
+						if(status === 'Done') {
 							fetchFile();
-						} else if (done === 'Compiling') {
+						} else if (status === 'Compiling') {
 							setTimeout(check, 1000);
-						} else if (done === 'Waiting') {
+						} else if (status === 'Waiting') {
 							setTimeout(check, 1000);
 						}
+            console.log('Status: ', status)
 					});
 				}
 
 				function fetchFile() {
-					var form = $("<form>").attr({ target: '_self', method: 'post', action: '' });
-					var type = $('<input>').attr({ name: "type", value: 'fetch' });
-					var id = $('<input>').attr({ name: "id", value: reqestID });
-					var secret = $('<input>').attr({ name: "secret", value: secret });
-					form.append(type).append(id).append(secret).submit();
+					var form = $('<form><form/>').attr({id:'getFile', method: 'post', action: '/' });
+					var type = $('<input/>').attr({ name: 'type', value: 'fetch' });
+					var id = $('<input/>').attr({ name: 'reqID', value: reqestID });
+					var secretBox = $('<input/>').attr({ name: 'secret', value: secret });
+					form.append(type).append(id).append(secretBox);
+          form.hide();
+          $('#amz-main').append(form);
+          form.submit();
+          console.log('Fetching');
 				}
 			})
 		}.bind(this),1)
-		
+
 	});
 
-	
+
 })
