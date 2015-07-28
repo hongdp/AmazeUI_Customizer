@@ -8,9 +8,10 @@ var events = require("events");
 var app = express();
 var secrets = require('./utils/secret.js');
 var poolConstructor = require('./utils/pool.js');
-var pool = new poolConstructor(1,'./utils/child.js');
 var port = process.env.PORT || 3000;
 
+var cpuNum = require('os').cpus().length;
+var pool = new poolConstructor(cpuNum - 1 || 1,'./utils/child.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -26,24 +27,6 @@ app.get('/', function(req, res){
 app.post('/', function(req, res){
   var filename = 'amazeui.tar';
 
-  // var KillAndClean = function(){
-  //   console.log('Connection lost. Killing process.');
-  //   child.kill();
-  //   fs.exists(path, function (exists) {
-  //     if (exists) {
-  //       console.log('Path exists. Cleaning temp files.');
-  //       setTimeout(function () {
-  //         del(path);
-  //         console.log(requestID.toString() + ': Deleted');
-  //       }, 5000);
-  //     }
-  //   });
-  // }
-
-  // var CloseConnection = function() {
-
-  // }
-
   if(req.body.type === 'config'){
     console.log('configuring');
     var config = JSON.parse(req.body.config || '');
@@ -57,14 +40,14 @@ app.post('/', function(req, res){
     if(!secrets.Validate(reqID, secret)) {
       res.send('Invalid');
     }
-    var status = pool.checkTask(reqID);
-    if (status === enums.TaskStatus.Done) {
+    var info = pool.checkTask(reqID);
+    if (info.status === enums.TaskStatus.Done) {
       res.send('Done');
-    } else if (status === enums.TaskStatus.Compiling) {
+    } else if (info.status === enums.TaskStatus.Compiling) {
       res.send('Compiling');
-    } else if (status === enums.TaskStatus.Waiting) {
-      res.send('Waiting');
-    } else if (status === enums.TaskStatus.Canceled) {
+    } else if (info.status === enums.TaskStatus.Waiting) {
+      res.send('Waiting... No. '+info.number);
+    } else if (info.status === enums.TaskStatus.Canceled) {
       res.send('Canceled');
     }
   } else if (req.body.type === 'fetch') {
@@ -102,47 +85,6 @@ app.post('/', function(req, res){
 
     }
   }
-
-  // child.on('message', function(m){
-  //   if (m === 'ready') {
-  //     console.log('Child is ready');
-  //     child.send(childMsg);
-  //   } else if (m === 'done') {
-  //     console.log(requestID.toString()+'FINISHED');
-  //     res.download(path+filename, filename, function(err) {
-  //       if (err) {
-  //         console.log(err);
-  //         if (err.status) {
-  //           res.status(err.status).end();
-  //         } else {
-  //           res.status(404).end();
-  //         }
-
-  //       }
-  //       else {
-  //         console.log('Sent:', filename);
-  //         res.status(200).end();
-  //       }
-  //       child.kill();
-  //       fs.exists(path, function (exists) {
-  //         if(exists){
-  //           console.log('Path exists. Cleaning temp files.');
-  //           setTimeout(function(){
-  //             del(path);
-  //             console.log(requestID.toString()+': Deleted');
-  //           },5000);
-  //         }
-  //       });
-  //     });
-  //   } else if (m === 'error'){
-  //     console.error('Error occured! Closing connection.');
-  //     res.status(404).end();
-  //     KillAndClean();
-  //   }
-  // });
-
-
-
 });
 
 app.listen(port);

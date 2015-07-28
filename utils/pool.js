@@ -15,7 +15,6 @@ pool = function(workerNum, src) {
 		this._addNewWorker();
 	}
 	setInterval(function() {
-    //console.log(this._taskInfos);
 		for(var i in this._taskInfos) {
       if(!this._taskInfos.hasOwnProperty(i)){
         continue;
@@ -58,7 +57,7 @@ pool.prototype.checkTask = function(taskID) {
 	}
 	taskInfo.checked = true;
   console.log('Status of task', taskID, ':', taskInfo.status);
-	return taskInfo.status;
+	return {status: taskInfo.status, number: taskID - this._currentTaskID};
 };
 
 pool.prototype.newTask = function(args) {
@@ -83,6 +82,7 @@ pool.prototype.TaskInfo = function(args) {
 };
 
 pool.prototype._StartWorking = function(worker, taskInfo, taskID) {
+  this._currentTaskID = taskID > this._currentTaskID ? taskID : this._currentTaskID;
 	var msg = {
 		type: enums.ToChildMsgTypes.Run,
 		args: taskInfo.args,

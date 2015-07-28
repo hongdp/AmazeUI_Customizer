@@ -1,6 +1,11 @@
 $(function(){
 	$('#config-form').submit(function(event){
 		event.preventDefault();
+    var modalIns = $('#loading-modal');
+    $('div#message').html('Initializing');
+    modalIns.modal();
+
+
 		var msg = {type: 'config'};
 		setTimeout(function() {
 			$(this).serializeArray().forEach(function(obj) {
@@ -21,12 +26,14 @@ $(function(){
           var msg = {type: 'check', reqID: reqestID, secret: secret}
 					$.post('/', msg, function(status){
 						if(status === 'Done') {
+              modalIns.modal('close');
 							fetchFile();
 						} else if (status === 'Compiling') {
 							setTimeout(check, 1000);
-						} else if (status === 'Waiting') {
+						} else if (status.indexOf('Waiting') != -1 ) {
 							setTimeout(check, 1000);
 						}
+            $('div#message').html(status);
             console.log('Status: ', status)
 					});
 				}

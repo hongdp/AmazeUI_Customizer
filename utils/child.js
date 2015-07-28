@@ -12,7 +12,6 @@ process.on('message', function(msg) {
       process.send({type: enums.FromChildMsgTypes.Error});
     }
     var customizerInst = new Customizer(msg.args, msg.taskID, successCallback, errorCallback);
-    // console.log("GOING TO RUN")
     try {
       customizerInst.run();
     }

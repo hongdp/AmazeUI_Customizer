@@ -14,8 +14,6 @@ SecretKeeper.prototype.NewSecret = function(id) {
 
 
 SecretKeeper.prototype.Validate = function(id, secret) {
-  //console.log(id);
-  //console.log(this.Infos);
   if(!this.Infos[id]) {
     throw 'Secret doesn\'t exist.'
   }
