@@ -11,6 +11,7 @@ var poolConstructor = require('./utils/pool.js');
 var port = process.env.PORT || 3000;
 
 var cpuNum = require('os').cpus().length;
+console.log('CPUNUM:',cpuNum);
 var pool = new poolConstructor(cpuNum - 1 || 1,'./utils/child.js');
 
 app.use(bodyParser.urlencoded({ extended: false }));
