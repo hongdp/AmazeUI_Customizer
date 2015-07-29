@@ -39,7 +39,7 @@ pool.prototype.checkTask = function(taskID) {
 
 	} catch(err) {
 		console.warn(err);
-		return enums.TaskStatus.Canceled;
+		return {status: enums.TaskStatus.Canceled};
 	}
   console.log('Status of task', taskID, ':', taskInfo.status);
 	return {status: taskInfo.status, number: taskID - this._currentTaskID};
