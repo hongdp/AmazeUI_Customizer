@@ -32,7 +32,9 @@ $(function(){
 							setTimeout(check, 1000);
 						} else if (status.indexOf('Waiting') != -1 ) {
 							setTimeout(check, 1000);
-						}
+						} else if (status === 'Canceled') {
+              modalIns.modal('close');
+            }
             $('div#message').html(status);
             console.log('Status: ', status)
 					});
