@@ -13,6 +13,24 @@ var port = process.env.PORT || 3000;
 var cpuNum = require('os').cpus().length;
 console.log('CPUNUM:',cpuNum);
 var pool = new poolConstructor(cpuNum - 1 || 1,'./utils/child.js');
+var reqCheckedStatus = {};
+setInterval(function() {
+  for(var i in reqCheckedStatus) {
+    if(!reqCheckedStatus.hasOwnProperty(i)){
+      continue;
+    }
+    if(!reqCheckedStatus[i]){
+      try {
+        pool.deleteTask(i);
+      } catch(err) {
+        console.error(err);
+      }
+      delete reqCheckedStatus[i];
+    } else {
+      reqCheckedStatus[i] = false;
+    }
+  }
+}, 2000)
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -28,16 +46,20 @@ app.get('/', function(req, res){
 app.post('/', function(req, res){
   var filename = 'amazeui.tar';
 
-  if(req.body.type === 'config'){
+  if(req.body.type === 'config') {
     console.log('configuring');
     var config = JSON.parse(req.body.config || '');
     var reqID = pool.newTask(config);
+    reqCheckedStatus[reqID] = true;
     var secret = secrets.NewSecret(reqID);
     res.send({reqID: reqID, secret: secret});
+
+
   } else if (req.body.type === 'check') {
     console.log('checking');
     var reqID = req.body.reqID;
     var secret = req.body.secret;
+    reqCheckedStatus[reqID] = true;
     if(!secrets.Validate(reqID, secret)) {
       res.send('Invalid');
     }
@@ -51,11 +73,12 @@ app.post('/', function(req, res){
     } else if (info.status === enums.TaskStatus.Canceled) {
       res.send('Canceled');
     }
+
+
   } else if (req.body.type === 'fetch') {
     console.log('fetching');
     var reqID = req.body.reqID;
     var secret = req.body.secret;
-    //console.log(req.body);
     var path = __dirname + '/customizer/' + reqID + '/'
     if (secrets.Validate(reqID, secret)) {
       res.download(path+filename, filename, function(err) {
@@ -82,7 +105,7 @@ app.post('/', function(req, res){
           }
         });
       });
-    } else {
+
 
     }
   }

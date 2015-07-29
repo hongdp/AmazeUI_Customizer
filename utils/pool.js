@@ -14,20 +14,6 @@ pool = function(workerNum, src) {
 	for (var i = 0; i < workerNum; i++) {
 		this._addNewWorker();
 	}
-	setInterval(function() {
-		for(var i in this._taskInfos) {
-      if(!this._taskInfos.hasOwnProperty(i)){
-        continue;
-      }
-			if(!this._taskInfos[i].checked){
-        console.warn('Canceling task ', i);
-				this._taskInfos[i].emit('cancel');
-				delete this._taskInfos[i];
-			} else {
-        this._taskInfos[i].checked = false;
-      }
-		}
-  }.bind(this), 2000)
 };
 pool.prototype._addNewWorker = function() {
   var newWorker = cp.fork(this.src);
@@ -55,7 +41,6 @@ pool.prototype.checkTask = function(taskID) {
 		console.warn(err);
 		return enums.TaskStatus.Canceled;
 	}
-	taskInfo.checked = true;
   console.log('Status of task', taskID, ':', taskInfo.status);
 	return {status: taskInfo.status, number: taskID - this._currentTaskID};
 };
@@ -76,7 +61,6 @@ pool.prototype.newTask = function(args) {
 
 pool.prototype.TaskInfo = function(args) {
 	events.EventEmitter.call(this);
-  this.checked = true;
 	this.status = enums.TaskStatus.Init;
 	this.args = args;
 };
@@ -91,15 +75,20 @@ pool.prototype._StartWorking = function(worker, taskInfo, taskID) {
   taskInfo.status = enums.TaskStatus.Compiling;
 	worker.send(msg);
 	worker.on('message', function(msg) {
-		if (msg.type === enums.FromChildMsgTypes.Done) {
+		if (msg.type === enums.FromChildMsgTypes.Done && taskInfo.status === enums.TaskStatus.Compiling) {
       taskInfo.status = enums.TaskStatus.Done;
-			RefreshWorker(worker, this);
+      this._RefreshWorker(worker, this);
 		}
   }.bind(this));
 	taskInfo.on('cancel', function() {
-    console.warn('Task', taskID, ' is canceled')
+    if(taskInfo.status === enums.TaskStatus.Canceled) {
+      return;
+    }
+    console.warn('Task', taskID, ' is canceled');
+    if(taskInfo.status === enums.TaskStatus.Compiling) {
+      this._RefreshWorker(worker, this);
+    }
     taskID.status = enums.TaskStatus.Canceled;
-		 RefreshWorker(worker, this);
     var path = __dirname + '/../customizer/' + taskID + '/';
     fs.exists(path, function (exists) {
       if (exists) {
@@ -115,9 +104,18 @@ pool.prototype._StartWorking = function(worker, taskInfo, taskID) {
 
 };
 
-function RefreshWorker(worker, pool) {
+pool.prototype._RefreshWorker = function(worker, pool) {
   worker.kill();
   pool._addNewWorker();
+}
+
+pool.prototype.deleteTask = function(taskID) {
+  if (!this._taskInfos[taskID]) {
+    throw 'TaskInfos doesn\'t exist';
+  }
+  console.warn('Canceling task ', i);
+  this._taskInfos[taskID].emit('cancel');
+  delete this._taskInfos[taskID];
 }
 
 
