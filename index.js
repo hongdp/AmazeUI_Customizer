@@ -32,7 +32,6 @@ app.get('/', function(req, res){
 });
 
 app.post('/', function(req, res){
-  console.log('initiating');
   if(!req.body.config) {
     return;
   }
@@ -104,5 +103,10 @@ app.post('/fetch', function(req, res){
   } else {
     res.send('Invalid');
   }
+});
+
+app.post('/config', function(req, res) {
+  console.log(req.body.config);
+  res.attachment().send(req.body.config);
 });
 app.listen(port);
