@@ -6,7 +6,7 @@ $(function(){
     modalIns.modal();
 
 
-		var msg = {type: 'config'};
+		var msg = {type: 'init'};
 		setTimeout(function() {
 			$(this).serializeArray().forEach(function(obj) {
 				if(obj.name === 'config') {
@@ -24,7 +24,7 @@ $(function(){
 
 				function check() {
           var msg = {type: 'check', reqID: reqestID, secret: secret}
-					$.post('/', msg, function(status){
+					$.post('/check', msg, function(status){
 						if(status === 'Done') {
               modalIns.modal('close');
 							fetchFile();
@@ -32,7 +32,7 @@ $(function(){
 							setTimeout(check, 1000);
 						} else if (status.indexOf('Waiting') != -1 ) {
 							setTimeout(check, 1000);
-						} else if (status === 'Canceled') {
+						} else if (status === 'Canceled' || status === 'Invalid') {
               modalIns.modal('close');
             }
             $('div#message').html(status);
@@ -41,7 +41,7 @@ $(function(){
 				}
 
 				function fetchFile() {
-					var form = $('<form><form/>').attr({id:'getFile', method: 'post', action: '/' });
+					var form = $('<form><form/>').attr({id:'getFile', method: 'post', action: '/fetch' });
 					var type = $('<input/>').attr({ name: 'type', value: 'fetch' });
 					var id = $('<input/>').attr({ name: 'reqID', value: reqestID });
 					var secretBox = $('<input/>').attr({ name: 'secret', value: secret });

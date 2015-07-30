@@ -4,16 +4,19 @@ var util = require('util');
 var events = require('events');
 var del = require('del');
 var fs = require('fs');
-pool = function(workerNum, src) {
-	this._taskInfos = {};
-	this._currentTaskID = 0;
-	this._TaskQ = [];
-	this._WorkerQ = [];
-	this._idCount = 0;
-	this.src = src;
-	for (var i = 0; i < workerNum; i++) {
-		this._addNewWorker();
-	}
+
+
+var pool = function(workerNum, src) {
+  this._taskInfos = {};
+  this._currentTaskID = 0;
+  this._TaskQ = [];
+  this._WorkerQ = [];
+  this._idCount = 0;
+  this.src = src;
+  for (var i = 0; i < workerNum; i++) {
+    var newWorker = cp.fork(this.src);
+    this._WorkerQ.push(newWorker);
+  }
 };
 pool.prototype._addNewWorker = function() {
   var newWorker = cp.fork(this.src);
@@ -113,11 +116,15 @@ pool.prototype.deleteTask = function(taskID) {
   if (!this._taskInfos[taskID]) {
     throw 'TaskInfos doesn\'t exist';
   }
-  console.warn('Canceling task ', i);
+  console.warn('Canceling task ', taskID);
   this._taskInfos[taskID].emit('cancel');
   delete this._taskInfos[taskID];
 }
 
-
 util.inherits(pool.prototype.TaskInfo, events.EventEmitter);
-module.exports = pool;
+
+
+
+module.exports = function(cpuNum, src) {
+  return new pool(cpuNum, src);
+};
