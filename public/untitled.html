@@ -1,0 +1,1638 @@
+
+<!doctype html>
+<!--[if lte IE 7 ]>
+<html class="no-js ie lte7 lte8 lte9 customize"> <![endif]-->
+<!--[if IE 8 ]>
+<html class="no-js ie ie8 lte8 lte9 customize"> <![endif]-->
+<!--[if IE 9 ]>
+<html class="no-js ie ie9 lte9 customize"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!-->
+<html class="no-js customize"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="description" content="Amaze UI 是一个移动优先的跨屏前端框架。">
+  <meta name="keywords"
+        content="HTML, HTML5, CSS, CSS3, JS, JavaScript, framework, Amaze UI, front-end, frontend, web development, 前端框架, 开源, meizi, meizi UI, 妹子UI, Web Components">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>定制 Amaze UI | Amaze UI</title>
+
+  <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+
+  <!-- No Baidu Siteapp-->
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <link rel="alternate icon" type="image/png" href="/i/favicon.png">
+  <link rel="apple-touch-icon-precomposed"
+        href="/i/app-icon72x72@2x.png">
+
+  <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+    <link rel="stylesheet" href="/css/amazeui.css?v=icr1p1fs">
+    <link rel="stylesheet" href="/css/amaze.css?v=icr1p1fs">
+
+  <!--[if (gte IE 9)|!(IE)]><!-->
+    <script src="/js/jquery.min.js"></script>
+  <!--<![endif]-->
+
+    <!--[if lt IE 9]>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.amazeui.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+
+    <script src="/js/amazeui.js?v=icr1p1fs"></script>
+  <link rel='canonical' href='http://amazeui.org/customize?_ver=2.x'/>
+</head>
+<body class="" data-amui="2.x" ><script type='text/javascript' id="__bs_script__">//<![CDATA[
+    document.write("<script async src='/browser-sync/browser-sync-client.2.7.13.js'><\/script>".replace("HOST", location.hostname));
+//]]></script>
+
+<!--[if lte IE 9 ]>
+<div class="am-alert am-alert-danger ie-warning" data-am-alert>
+  <button type="button" class="am-close">&times;</button>
+  <div class="am-container">
+    365 安全卫士提醒：你的浏览器太古董了，妹子无爱，<a
+    href="http://browsehappy.com/" target="_blank">速速点击换一个</a>！</div></div>
+<![endif]-->
+  <header id="amz-header">
+    <div class="amz-container am-cf">
+      <h1><a href="/">Amaze UI</a>
+        <span class="am-badge am-badge-danger">2.4</span>
+      </h1>
+      <button class="am-btn am-btn-primary am-show-sm-only"
+              data-am-collapse="{target: '.amz-header-nav'}">
+        <span class="am-sr-only">导航切换</span>
+        <span class="am-icon-bars"></span>
+      </button>
+      <nav>
+        <ul class="amz-header-nav am-collapse">
+            <li 
+              
+                >
+              <a href="/getting-started">
+                开始使用
+              </a>
+            </li>
+            <li 
+              
+                >
+              <a href="/css">
+                CSS
+              </a>
+            </li>
+            <li 
+              
+                >
+              <a href="/javascript">
+                JS 插件
+              </a>
+            </li>
+            <li 
+              
+                >
+              <a href="/widgets">
+                Web 组件
+              </a>
+            </li>
+            <li 
+               class="nav-react"
+                >
+              <a href="http://amazeui.org/react/" target="_blank">
+                React
+                  <span class="am-badge am-badge-warning">New</span>
+              </a>
+            </li>
+            <li 
+              
+                >
+              <a href="http://blog.amazeui.org/" target="_blank">
+                博客
+              </a>
+            </li>
+            <li 
+              
+                >
+              <a href="http://en.amazeui.org" target="_blank">
+                English
+              </a>
+            </li>
+  
+            <li class="amz-cse">
+              <form action="http://zhannei.baidu.com/cse/search" method="get" target="_blank"
+                    class="cse-form">
+                <input type="hidden" name="s" value="13988471460650623274">
+                <input type="hidden" name="entry" value="1">
+                  <input type="text" required name="q" placeholder="搜索" autocomplete="off">
+                  <button><span class="am-icon-search"></span></button>
+              </form>
+              
+            </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <div class="amz-banner">
+    <div class="amz-container"
+         data-am-scrollspy="{animation: 'scale-up', repeat: false}">
+      <h1>定制 Amaze UI</h1>
+        <p>按照你需求，定制专属的 Amaze UI。</p>
+    </div>
+  </div>
+
+<section class="" id="amz-main">
+  <form action="" method="post" class="am-form">
+    <div class="am-container am-padding-vertical">
+      <h2>定制流程</h2>
+      <ol>
+        <li><strong>下载 Amaze UI 源码：</strong>从 <a
+            href="https://github.com/allmobilize/amazeui/releases"
+            target="_blank">GitHub</a> 选择版本，点击 <code>Source code (zip)</code>
+          下载并解压（<span class="am-text-danger">定制只适用于 Amaze UI 2.x</span>）；
+        </li>
+        <li><strong>下载安装 <a href="http://nodejs.org/download/" target="_blank">Node.js</a></strong>；
+        </li>
+        <li><strong>全局安装 gulp：</strong><code>npm install -g gulp</code>；</li>
+        <li><strong>安装相关依赖：</strong>切换到 Amaze UI 源码目录，运行 <code>npm
+          install</code>；
+        </li>
+        <li><strong>下载定制配置文件：</strong>在下面的列表中选择需要的组件，然后点击绿色按钮下载配置文件；</li>
+        <li><strong>定制：</strong>将下载的 <code>config.json</code> 放到源码 <code>tools/tasks/</code>
+          下，在源码根目录执行 <code>gulp customize</code>，定制的代码放在
+          <code>dist/customized/</code> 下。
+        </li>
+      </ol>
+
+      <p>必选的基础依赖（默认勾选）：</p>
+      <ul>
+        <li>css: <code>base</code> <code>mixins</code> <code>variables</code>
+        </li>
+        <li>js: <code>core</code></li>
+      </ul>
+
+      <h3>有点麻烦？</h3>
+
+      <p>搞前端的熟悉一下前端构建工具无可厚非，技多不压身；也欢迎搞后端的同学写一个后台，我们会提供必要的协助。</p>
+
+    </div>
+
+    <hr class="am-container"/>
+    <div class="am-g am-g-fixed am-padding-vertical">
+      <div class="am-u-md-4 amz-cst-css">
+        <h2>CSS</h2>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="variables.less"
+                
+                
+                 checked readonly 
+                  > variables
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="mixins.less"
+                
+                 checked readonly 
+                
+                  > mixins
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="base.less"
+                 checked readonly 
+                
+                
+                  > base
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="grid.less"
+                
+                
+                
+                  > grid
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="block-grid.less"
+                
+                
+                
+                  > block-grid
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="utility.less"
+                
+                
+                
+                  > utility
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="button.less"
+                
+                
+                
+                  > button
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="code.less"
+                
+                
+                
+                  > code
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="form.less"
+                
+                
+                
+                  > form
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="image.less"
+                
+                
+                
+                  > image
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="table.less"
+                
+                
+                
+                  > table
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="animation.less"
+                
+                
+                
+                  > animation
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="article.less"
+                
+                
+                
+                  > article
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="badge.less"
+                
+                
+                
+                  > badge
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="breadcrumb.less"
+                
+                
+                
+                  > breadcrumb
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="button.less"
+            >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="button-group.less"
+                
+                
+                
+                  > button-group
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="close.less"
+                
+                
+                
+                  > close
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="comment.less"
+                
+                
+                
+                  > comment
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="icon.less"
+                
+                
+                
+                  > icon
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="form.less,button.less"
+            >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="input-group.less"
+                
+                
+                
+                  > input-group
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="list.less"
+                
+                
+                
+                  > list
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="nav.less"
+                
+                
+                
+                  > nav
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="pagination.less"
+                
+                
+                
+                  > pagination
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="panel.less"
+                
+                
+                
+                  > panel
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="progress.less"
+                
+                
+                
+                  > progress
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="thumbnail.less"
+                
+                
+                
+                  > thumbnail
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="topbar.less"
+                
+                
+                
+                  > topbar
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+>
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-style"
+                     value="print.less"
+                
+                
+                
+                  > print
+            </label>
+          </div>
+      </div>
+
+      <div class="am-u-md-4 amz-cst-js">
+        <h2>JS 插件</h2>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="core.js"
+                 checked
+                     readonly> core
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.add2home.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.add2home.js"
+                > ui.add2home
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.alert.less,close.less,ui.component.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.alert.js"
+                > ui.alert
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="button.less,button-group.less,icon.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.button.js"
+                > ui.button
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.component.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.collapse.js"
+                > ui.collapse
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.component.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.dimmer.js"
+                > ui.dimmer
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.dropdown.less,animation.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.dropdown.js"
+                > ui.dropdown
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.flexslider.less,icon.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.flexslider.js"
+                > ui.flexslider
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.iscroll-lite.js"
+                > ui.iscroll-lite
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.modal.less,ui.component.less,close.less"
+
+               data-depJs="ui.dimmer.js"
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.modal.js"
+                > ui.modal
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.offcanvas.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.offcanvas.js"
+                > ui.offcanvas
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.pinchzoom.js"
+                > ui.pinchzoom
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.popover.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.popover.js"
+                > ui.popover
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.progress.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.progress.js"
+                > ui.progress
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.pureview.less,icon.less"
+
+               data-depJs="ui.pinchzoom.js,util.hammer.js"
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.pureview.js"
+                > ui.pureview
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="animation.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.scrollspy.js"
+                > ui.scrollspy
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+               data-depJs="ui.smooth-scroll.less"
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.scrollspynav.js"
+                > ui.scrollspynav
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.share.less,icon.less,button.less"
+
+               data-depJs="util.qrcode.js,ui.modal.js"
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.share.js"
+                > ui.share
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.smooth-scroll.js"
+                > ui.smooth-scroll
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="ui.component.less,animation.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.sticky.js"
+                > ui.sticky
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="nav.less,ui.tabs.less"
+
+               data-depJs="util.hammer.js"
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.tabs.js"
+                > ui.tabs
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="icon.less,ui.datepicker.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.datepicker.js"
+                > ui.datepicker
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="utility.less,button.less,icon.less,form.less,ui.dropdown.less,ui.selected.less"
+
+               data-depJs="ui.dropdown.js"
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.selected.js"
+                > ui.selected
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="icon.less,ui.ucheck.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.ucheck.js"
+                > ui.ucheck
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+               data-depStyle="form.less"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="ui.validator.js"
+                > ui.validator
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="util.cookie.js"
+                > util.cookie
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="util.fullscreen.js"
+                > util.fullscreen
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="util.hammer.js"
+                > util.hammer
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="util.qrcode.js"
+                > util.qrcode
+            </label>
+          </div>
+          <div class="am-checkbox amz-dep"
+
+              >
+            <label>
+              <input class="amz-cst-checkbox" type="checkbox" name="cst-js"
+                     value="util.store.js"
+                > util.store
+            </label>
+          </div>
+      </div>
+
+      <div class="am-u-md-4">
+        <h2>Web 组件</h2>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="icon.less,ui.component.less"
+
+                 data-depJs="ui.collapse.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="accordion"> accordion
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="accordion.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="accordion.basic.less">basic
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="accordion.gapped.less">gapped
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="divider"> divider
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="divider.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="divider.dotted.less">dotted
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="divider.dashed.less">dashed
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="duoshuo"> duoshuo
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="duoshuo.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="ui.pureview.less"
+
+                 data-depJs="ui.pinchzoom.js,ui.pureview.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="figure"> figure
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="figure.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="icon.less,close.less,ui.add2home.less,ui.modal.less,ui.component.less"
+
+                 data-depJs="ui.dimmer.js,ui.modal.js,ui.add2home.js,util.cookie.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="footer"> footer
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="footer.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="ui.pureview.less"
+
+                 data-depJs="ui.pinchzoom.js,ui.pureview.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="gallery"> gallery
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="gallery.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="gallery.overlay.less">overlay
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="gallery.bordered.less">bordered
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="gallery.imgbordered.less">imgbordered
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+
+                 data-depJs="ui.smooth-scroll.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="gotop"> gotop
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="gotop.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="gotop.fixed.less">fixed
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="icon.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="header"> header
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="header.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="button.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="intro"> intro
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="intro.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="list.less,button.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="list_news"> list_news
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="list_news.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="icon.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="map"> map
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="map.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="mechat"> mechat
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="mechat.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="list.less,ui.offcanvas.less,ui.component.less"
+
+                 data-depJs="ui.offcanvas.js,ui.collapse.js,ui.iscroll-lite.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="menu"> menu
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.dropdown1.less">dropdown1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.dropdown2.less">dropdown2
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.slide1.less">slide1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.offcanvas1.less">offcanvas1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.offcanvas2.less">offcanvas2
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="menu.stack.less">stack
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="ui.modal.less,ui.component.less,ui.share.less,button.less"
+
+                 data-depJs="ui.modal.js,ui.share.js,util.qrcode.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="navbar"> navbar
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="navbar.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="pagination.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="pagination"> pagination
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="pagination.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="pagination.select.less">select
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="ui.pureview.less"
+
+                 data-depJs="ui.iscroll-lite.js,ui.pinchzoom.js,ui.pureview.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="paragraph"> paragraph
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="paragraph.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="ui.flexslider.less"
+
+                 data-depJs="ui.flexslider.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="slider"> slider
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.a1.less">a1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.a2.less">a2
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.a3.less">a3
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.a4.less">a4
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.a5.less">a5
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.b1.less">b1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.b2.less">b2
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.b3.less">b3
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.b4.less">b4
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.c1.less">c1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.c2.less">c2
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.c3.less">c3
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.c4.less">c4
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.d1.less">d1
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.d2.less">d2
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="slider.d3.less">d3
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="ui.component.less,ui.tabs.less,animation.less"
+
+                 data-depJs="ui.tabs.js,util.hammer.js"
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="tabs"> tabs
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="tabs.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="tabs.d2.less">d2
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="button.less,icon.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="titlebar"> titlebar
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="titlebar.default.less">default
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="titlebar.multi.less">multi
+                      </label>
+                    </li>
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="titlebar.cols.less">cols
+                      </label>
+                    </li>
+              </ul>
+          </div>
+          <div class="cst-widget-item">
+            <div class="am-checkbox"
+                 data-depStyle="icon.less"
+
+                >
+              <label>
+                <input type="checkbox" class="cst-widget" name="cst-widget"
+                       value="wechatpay"> wechatpay
+              </label>
+            </div>
+              <ul class="cst-widget-themes">
+                    <li class="am-checkbox">
+                      <label>
+                        <input type="checkbox" name="cst-widget-theme"
+                               value="wechatpay.default.less">default
+                      </label>
+                    </li>
+              </ul>
+          </div>
+      </div>
+    </div>
+
+    <hr class="am-container"/>
+
+    <div class="am-g am-g-fixed">
+      <div class="am-u-md-8 am-padding-vertical am-u-md-centered">
+        <input name="config" type="hidden" id="cst-config"/>
+        <button type="submit" id="amz-compile" download="config.json"
+                class="am-btn am-btn-success">下载定制配置文件
+        </button>
+      </div>
+    </div>
+  </form>
+</section>
+
+<script>
+  $(function() {
+    var $main = $('#amz-main');
+    var $theme = $('.cst-widget-themes');
+    var $configField = $('#cst-config');
+
+    $(':checkbox[readonly]').on('click', function(e) {
+      e.preventDefault();
+      return false;
+    });
+
+    $('.cst-widget-item').each(function() {
+      var $widget = $(this).find('.cst-widget');
+      var $themes = $(this).find('.cst-widget-themes');
+
+      $widget.on('click', function() {
+        $theme.not($themes).removeClass('am-active');
+
+        if ($(this).is(':checked')) {
+          $themes.addClass('am-active am-animation-fade')
+        } else {
+          $themes.removeClass('am-active');
+          $themes.find('input').prop('checked', false);
+        }
+      });
+
+    });
+
+    $main.on('click', '.amz-cst-checkbox', function() {
+      var $parent = $(this).parents('.am-checkbox');
+      var $dataStyle = $parent.data('depstyle');
+      var $dataJs = $parent.data('depjs');
+      var arrStyle = $dataStyle && $dataStyle.split(',') || [];
+      var arrJs = $dataJs && $dataJs.split(',') || [];
+      var $this = $(this);
+      var $val = $this.val();
+
+      if ($this.is(':checked')) {
+        fnSelected(arrStyle, $val);
+        fnSelected(arrJs, $val);
+      } else {
+        fnCancel(arrStyle, $val);
+        fnCancel(arrJs, $val);
+      }
+
+    });
+
+    $main.find('form').eq(0).on('submit', function(e) {
+      // e.preventDefault();
+      var source = {
+        style: [],
+        js: [],
+        widgets: []
+      };
+      var $arrSerialize = $(this).serialize().split('&');
+      var $parent = $(this).find(':checked').parents('.amz-dep');
+      var reg = /cst-(.+)=(.+)/g;
+
+      // data-dep
+      $parent.each(function() {
+        var $this = $(this);
+        var $dataStyle = $this.data('depstyle');
+        var $dataJs = $this.data('depjs');
+        var arrStyle = $dataStyle && $dataStyle.split(',') || [];
+        var arrJs = $dataJs && $dataJs.split(',') || [];
+
+        for (var i = 0; i < arrStyle.length; i++) {
+          source.style.push(arrStyle[i]);
+        }
+
+        for (var j = 0; j < arrJs.length; j++) {
+          source.js.push(arrJs[j]);
+        }
+      });
+
+      // serialize input
+      for (var k = 0; k < $arrSerialize.length; k++) {
+        $arrSerialize[k].replace(reg, function($0, $1, $2) {
+          if ($1 == 'style') {
+            source.style.push($2);
+          } else if ($1 == 'js') {
+            source.js.push($2);
+          } else if ($1 == 'widget') {
+            source.widgets.push({
+              "name": $2,
+              "theme": []
+            })
+          } else if ($1 == 'widget-theme') {
+            for (var m = 0; m < source.widgets.length; m++) {
+              var reg = /([^\.]+)\..+/g;
+              $2.replace(reg, function($0, $1) {
+                if ($1 == source.widgets[m].name) {
+                  source.widgets[m].theme.push($0)
+                }
+              });
+            }
+          }
+        });
+      }
+
+      source.js = fnUnique(source.js);
+      source.style = fnUnique(source.style);
+
+      $configField.val(JSON.stringify(source));
+
+      /*// saveData(source, 'config.json');
+      $.ajax({
+        type: "POST",
+        url: '/customize',
+        dataType: 'json',
+        data: {config: source},
+        success: function() {
+
+        }
+      });*/
+
+      return true;
+    });
+
+    function fnUnique(array) {
+      if (!array) return array;
+      var obj = {}, a = [];
+      for (var i = 0; i < array.length; i++) {
+        if (!obj[array[i]]) {
+          a.push(array[i]);
+          obj[array[i]] = true;
+        }
+      }
+      return a;
+    }
+
+    function fnSelected(arr, objValue) {
+      $.each(arr, function(index, val) {
+        var $selCheckbox = $('input[value="' + val + '"]');
+
+        $selCheckbox
+            .prop('checked', true)
+            .data(objValue, true);
+      })
+    }
+
+    function fnCancel(arr, objValue) {
+      $.each(arr, function(index, val) {
+        var $selCheckbox = $('input[value="' + val + '"]');
+
+        $selCheckbox
+            .prop('checked', false)
+            .removeData(objValue);
+
+        if (!$.isEmptyObject($selCheckbox.data())) {
+          $selCheckbox
+              .prop('checked', true)
+        }
+      })
+    }
+
+    function saveData(data, fileName) {
+      var a = document.createElement("a");
+      document.body.appendChild(a);
+      a.style = "display: none";
+
+      var json = JSON.stringify(data),
+          blob = new Blob([json], {type: "octet/stream"}),
+          url = window.URL.createObjectURL(blob);
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    }
+  });
+</script>
+<div class="am-container">
+
+</div>
+
+
+  <footer class="amz-footer">
+    <div class="am-g am-g-fixed">
+      <div class="col-md-4 col-md-push-8 am-u-md-4 am-u-md-push-8">
+        <ul class="amz-social">
+          <li><a href="/about/contact"><span class="am-icon-qq"></span></a></li>
+          <li><a href="http://weibo.com/amazeui" title="Amaze UI 微博" target="_blank"><span class="am-icon-weibo"></span></a></li>
+          <li><a href="#am-wechat" title="云适配微信" data-am-modal><span class="am-icon-wechat"></span></a></li>
+          <li><a class="new-issue" href="https://github.com/allmobilize/amazeui/issues/new?title=Bug%3A%20&body=**%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0**%0A%0A%EF%BC%88%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8B%E9%97%AE%E9%A2%98%EF%BC%89%0A%0A**%E4%BA%A7%E7%94%9F%E7%8E%AF%E5%A2%83**%0A%0A-%20%E8%AE%BE%E5%A4%87%EF%BC%9A%EF%BC%88%E6%89%8B%E6%9C%BA%E3%80%81%E5%B9%B3%E6%9D%BF%E7%AD%89%E7%A7%BB%E5%8A%A8%E8%AE%BE%E5%A4%87%E6%97%B6%E5%A1%AB%E5%86%99%E6%AD%A4%E9%A1%B9%EF%BC%89%0A-%20%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E5%8F%8A%E7%89%88%E6%9C%AC%EF%BC%9A%0A-%20%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8F%8A%E7%89%88%E6%9C%AC%EF%BC%9A%0A-%20%E6%BC%94%E7%A4%BA%E5%9C%B0%E5%9D%80%EF%BC%9A%0A%0A**%E5%A4%8D%E7%8E%B0%E6%AD%A5%E5%A5%8F**%0A%0A1.%20%0A2.%20%0A...%20%0A%20%0A**UA:**%20%0A" target="_blank" title="Bug 反馈"><span
+              class="am-icon-paper-plane"></span></a></li>
+        </ul>
+      </div>
+      <div class="col-md-8 col-md-pull-4 am-u-md-8 am-u-md-pull-4">
+        <h2 class="amz-fd"><a>云适配</a></h2>
+        <ul class="amz-links">
+            <a href="/about/wantu" class="am-icon-heart">&nbsp;妹子招亲</a> | <a href="/about/resources">品牌相关</a>
+              | <a href="/1.x">历史版本：v1.x</a>
+          </li>
+        </ul>
+        <p class="amz-cp">
+          &copy; 2015 AllMobilize, Inc. Licensed under <a
+            href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. Developed with
+          <a href="http://www.jetbrains.com/webstorm/" target="_blank">WebStorm</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+  
+  <div class="am-modal am-modal-no-btn" tabindex="-1" id="am-wechat">
+    <div class="am-modal-dialog">
+      <div class="am-modal-hd">
+        <a href="" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+      </div>
+      <div class="am-modal-bd">
+        <img src="/i/am/qr-ui.jpg" alt="Amaze UI 微信"/>
+        <br/> 在微信上关注我们
+      </div>
+    </div>
+  </div>
+  
+  <div class="amz-toolbar" id="amz-toolbar">
+    <a href="#top" title="回到顶部" class="am-icon-btn am-icon-arrow-up" id="amz-go-top"></a>
+    <a href="/getting-started/faq" title="常见问题" class="am-icon-faq am-icon-btn am-icon-question-circle"></a>
+  </div>
+  
+  
+  
+  <!--[if (gte IE 9)|!(IE)]><!-->
+  <script src="/js/ZeroClipboard.min.js"></script>
+  <!--<![endif]-->
+  
+  <script src="/js/handlebars.min.js"></script>
+    <script src="/js/main.js"></script>
+</body>
+</html>
+<!-- Cached page generated on Fri Jul 31 2015 11:02:56 GMT+0800 (CST) -->
